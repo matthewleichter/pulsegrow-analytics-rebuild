@@ -1,1 +1,21 @@
-# Placeholder for product_features.csv
+feature_id,description,enabled_pct
+feat_1,Feature 1 - AI powered recommendation,0.86
+feat_2,Feature 2 - AI powered recommendation,0.25
+feat_3,Feature 3 - AI powered recommendation,0.74
+feat_4,Feature 4 - AI powered recommendation,0.23
+feat_5,Feature 5 - AI powered recommendation,0.81
+feat_6,Feature 6 - AI powered recommendation,0.32
+feat_7,Feature 7 - AI powered recommendation,0.76
+feat_8,Feature 8 - AI powered recommendation,0.51
+feat_9,Feature 9 - AI powered recommendation,0.99
+feat_10,Feature 10 - AI powered recommendation,0.62
+feat_11,Feature 11 - AI powered recommendation,0.67
+feat_12,Feature 12 - AI powered recommendation,0.43
+feat_13,Feature 13 - AI powered recommendation,0.76
+feat_14,Feature 14 - AI powered recommendation,0.55
+feat_15,Feature 15 - AI powered recommendation,0.12
+feat_16,Feature 16 - AI powered recommendation,0.65
+feat_17,Feature 17 - AI powered recommendation,0.85
+feat_18,Feature 18 - AI powered recommendation,0.31
+feat_19,Feature 19 - AI powered recommendation,0.3
+feat_20,Feature 20 - AI powered recommendation,0.65

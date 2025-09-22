@@ -1,87 +1,111 @@
 
 import streamlit as st
 import pandas as pd
-from utils.data_loader import load_all_data
-from utils.plot_helpers import (
-    plot_churn_analysis,
-    plot_usage_trends,
-    plot_kaplan_meier,
-    plot_timesnet_forecast,
-    plot_ab_test,
-    plot_anomalies,
-    plot_causal_inference,
-    plot_funnel_analysis,
-    plot_revenue_forecast,
-    plot_segmentation,
-    plot_llm_interpreter
-)
+import plotly.express as px
+from utils.churn_utils import *
+from utils.usage_utils import *
+from utils.forecast_utils import *
+from utils.survival_utils import *
+from utils.segmentation_utils import *
+from utils.funnel_utils import *
+from utils.abtest_utils import *
+from utils.causal_utils import *
+from utils.anomaly_utils import *
+from utils.revenue_utils import *
+from utils.insight_utils import *
 
 st.set_page_config(page_title="PulseGrow Analytics", layout="wide")
 
-st.title("📊 PulseGrow Analytics Dashboard")
-st.markdown("Explore all 11 analytics modules below:")
+st.title("📊 PulseGrow Analytics Platform")
 
-# Load all data
-data = load_all_data()
+# Load data
+@st.cache_data
+def load_data():
+    events = pd.read_csv("data/events.csv")
+    users = pd.read_csv("data/users.csv")
+    transactions = pd.read_csv("data/transactions.csv")
+    churn_labels = pd.read_csv("data/churn_labels.csv")
+    usage_logs = pd.read_csv("data/usage_logs.csv")
+    retention_data = pd.read_csv("data/retention_data.csv")
+    segmentation_labels = pd.read_csv("data/segmentation_labels.csv")
+    funnel_steps = pd.read_csv("data/funnel_steps.csv")
+    ab_test_results = pd.read_csv("data/ab_test_results.csv")
+    causal_treatments = pd.read_csv("data/causal_treatments.csv")
+    anomaly_logs = pd.read_csv("data/anomaly_logs.csv")
+    marketing_spend = pd.read_csv("data/marketing_spend.csv")
+    product_features = pd.read_csv("data/product_features.csv")
+    return {
+        "events": events,
+        "users": users,
+        "transactions": transactions,
+        "churn_labels": churn_labels,
+        "usage_logs": usage_logs,
+        "retention_data": retention_data,
+        "segmentation_labels": segmentation_labels,
+        "funnel_steps": funnel_steps,
+        "ab_test_results": ab_test_results,
+        "causal_treatments": causal_treatments,
+        "anomaly_logs": anomaly_logs,
+        "marketing_spend": marketing_spend,
+        "product_features": product_features
+    }
 
-# Define tabs for each module
+data = load_data()
+
 tabs = st.tabs([
-    "Churn Prediction", "Usage Forecast", "TimesNet Forecast", "Retention (Survival)",
-    "A/B Testing", "Anomaly Detection", "Causal Inference",
-    "Funnel Analysis", "Revenue Forecast", "Segmentation", "LLM Interpreter"
+    "Churn Prediction",
+    "Usage Forecast",
+    "TimesNet Forecast",
+    "Retention (Kaplan-Meier)",
+    "Segmentation",
+    "Funnel Analysis",
+    "A/B Testing",
+    "Causal Inference",
+    "Anomaly Detection",
+    "Revenue Forecast",
+    "Insight Generator"
 ])
 
-# Churn Prediction
 with tabs[0]:
-    st.subheader("Churn Prediction")
-    plot_churn_analysis(data)
+    st.subheader("📉 Churn Prediction Model")
+    churn_model(data["users"], data["churn_labels"])
 
-# Usage Forecast
 with tabs[1]:
-    st.subheader("Usage Forecast")
-    plot_usage_trends(data)
+    st.subheader("📈 Usage Forecasting (Smoothed + CI)")
+    usage_forecast(data["usage_logs"])
 
-# TimesNet Forecast
 with tabs[2]:
-    st.subheader("TimesNet - Next 5 Points Forecast")
-    plot_timesnet_forecast(data)
+    st.subheader("🧠 TimesNet Usage Forecast (Next 5 Points)")
+    timesnet_forecast(data["usage_logs"])
 
-# Retention (Kaplan-Meier)
 with tabs[3]:
-    st.subheader("User Retention - Kaplan-Meier Survival Curve")
-    plot_kaplan_meier(data)
+    st.subheader("📊 Retention Analysis (Kaplan-Meier)")
+    retention_km(data["retention_data"])
 
-# A/B Testing
 with tabs[4]:
-    st.subheader("A/B Test Results")
-    plot_ab_test(data)
+    st.subheader("👥 Behavioral Segmentation")
+    segmentation_model(data["usage_logs"], data["segmentation_labels"])
 
-# Anomaly Detection
 with tabs[5]:
-    st.subheader("Anomaly Detection")
-    plot_anomalies(data)
+    st.subheader("🔍 Funnel Conversion Analysis")
+    funnel_analysis(data["funnel_steps"])
 
-# Causal Inference
 with tabs[6]:
-    st.subheader("Causal Inference Analysis")
-    plot_causal_inference(data)
+    st.subheader("🧪 A/B Test Simulation and Results")
+    ab_test_module(data["ab_test_results"])
 
-# Funnel Analysis
 with tabs[7]:
-    st.subheader("Funnel Drop-Off Analysis")
-    plot_funnel_analysis(data)
+    st.subheader("⚖️ Causal Inference (DoWhy / EconML)")
+    causal_inference_module(data["causal_treatments"])
 
-# Revenue Forecast
 with tabs[8]:
-    st.subheader("Revenue & Monetization Forecast")
-    plot_revenue_forecast(data)
+    st.subheader("🚨 Anomaly Detection (Isolation Forest)")
+    anomaly_detection(data["anomaly_logs"])
 
-# Segmentation
 with tabs[9]:
-    st.subheader("Behavioral Segmentation")
-    plot_segmentation(data)
+    st.subheader("💰 Revenue Forecasting (Prophet/ARIMA)")
+    revenue_forecast(data["transactions"], data["marketing_spend"])
 
-# LLM Interpreter
 with tabs[10]:
-    st.subheader("LLM Model Insights")
-    plot_llm_interpreter(data)
+    st.subheader("🧠 AI Insight Generator (LLM-Augmented)")
+    insight_generator(data["events"], data["product_features"])

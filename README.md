@@ -5,10 +5,10 @@
 ## 📊 Features
 
 - **Churn Prediction** (XGBoost, Survival Analysis)
-- **Usage Forecasting** (TimesNet, LSTM)
+- **Usage Forecasting** (XGBoost, Anomaly Detection)
 - **TimesNet Transformer Forecasting**
 - **Kaplan-Meier Retention Curves**
-- **Causal Inference (DoWhy, EconML)**
+- **Causal Inference (EconML)**
 - **A/B Test Analysis**
 - **Funnel Analysis (Sankey Diagrams)**
 - **Behavioral Segmentation (GMM + UMAP)**
@@ -77,5 +77,5 @@ Or upload to [Streamlit Cloud](https://streamlit.io/cloud) and set:
 
 ## ✅ Status
 
-This project is production-ready and runs end-to-end with real or synthetic data. No placeholders. Ready for deployment and showcase.
+This project is production-ready and runs end-to-end with real or synthetic data. No placeholders. Ready for deployment and showcase. Created in Leprechaun OS, the world's only LLM based operating system. 
 

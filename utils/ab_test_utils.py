@@ -1,6 +1,11 @@
+# utils/ab_test_utils.py
 import pandas as pd
 import numpy as np
 from scipy import stats
+import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
+from models.ab_testing import ABTestModel
 
 def perform_ab_test(data: pd.DataFrame) -> dict:
     """
@@ -59,3 +64,22 @@ def perform_ab_test(data: pd.DataFrame) -> dict:
         'n_control': n_control,
         'n_treatment': n_treatment
     }
+
+def compute_kl_divergence(data: pd.DataFrame) -> float:
+    return ABTestModel.run_kl_divergence(data)
+
+def visualize_ab_test(data: pd.DataFrame):
+    st.subheader("Metric Distribution by Group")
+    fig, ax = plt.subplots()
+    sns.histplot(data=data, x="metric", hue="group", kde=True, stat="density", element="step")
+    ax.set_title("Distribution of Metric by Group")
+    st.pyplot(fig)
+
+    st.subheader("T-Test Results")
+    stats_result = perform_ab_test(data)
+    for k, v in stats_result.items():
+        st.markdown(f"**{k.replace('_', ' ').capitalize()}:** {v}")
+
+    st.subheader("KL Divergence (Control || Treatment)")
+    kl_value = compute_kl_divergence(data)
+    st.markdown(f"**KL Divergence:** `{kl_value:.4f}`")

@@ -1,4 +1,4 @@
-# models/ab_test.py
+# models/ab_testing.py
 
 import numpy as np
 from scipy.stats import entropy

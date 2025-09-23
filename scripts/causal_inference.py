@@ -1,3 +1,5 @@
+# scripts/causal_inference.py
+
 import pandas as pd
 import streamlit as st
 from utils.causal_inference_utils import run_causal_model
@@ -9,4 +11,4 @@ def run_causal_inference():
         data = pd.read_csv(uploaded_file)
         st.write("Data Preview:", data.head())
         results = run_causal_model(data)
-        st.write("Causal Inference Results:", results)
+        st.write("Estimated Causal Effects:", results)

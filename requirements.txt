@@ -12,8 +12,8 @@ seaborn==0.13.2
 shap==0.44.0
 
 # Causal Inference
-dowhy==0.9.1
 econml==0.14.1
+lightgbm==4.3.0
 
 # Survival Analysis
 lifelines==0.28.0

@@ -39,3 +39,17 @@ def plot_forecast(ts_data, forecast, save_path=None):
         plt.savefig(save_path)
     else:
         plt.show()
+
+def plot_forecast_with_confidence(forecast_df):
+    """
+    Plots Prophet forecast with confidence intervals.
+    """
+    plt.figure(figsize=(12, 6))
+    plt.plot(forecast_df['ds'], forecast_df['yhat'], label="Forecast")
+    plt.fill_between(forecast_df['ds'], forecast_df['yhat_lower'], forecast_df['yhat_upper'],
+                     alpha=0.3, label="Confidence Interval")
+    plt.xlabel("Date")
+    plt.ylabel("Revenue")
+    plt.legend()
+    plt.title("Revenue Forecast with Prophet")
+    return plt.gcf()

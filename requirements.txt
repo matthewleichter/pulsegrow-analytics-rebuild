@@ -21,9 +21,11 @@ lifelines==0.28.0
 umap-learn==0.5.5
 
 # LLMs and LangChain
-openai==1.30.1
-langchain==0.2.2
-langchain-openai==0.1.6
+openai==1.31.0
+langchain==0.1.16
+langchain-core==0.1.44
+langchain-openai==0.0.8
+
 
 # Other Useful Packages
 plotly==5.22.0

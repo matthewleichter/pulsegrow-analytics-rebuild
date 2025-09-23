@@ -1,33 +1,40 @@
-import xgboost as xgb
+# utils/timesnet_utils.py (now using XGBoost instead of TimesNet)
+
 import pandas as pd
-import numpy as np
+import matplotlib.pyplot as plt
+from models.timesnet_predictor import XGBoostPredictor
 
-def TimesNetPredictor(df, target_col='usage', forecast_horizon=5):
+
+def forecast_usage_with_xgboost(df, input_window=30, forecast_horizon=5):
     """
-    Train an XGBoost regressor on past usage and predict the next `forecast_horizon` values.
-    Assumes the input df has a time-series index and a column named 'usage'.
+    Uses XGBoost to forecast the next `forecast_horizon` usage points
+    based on the past `input_window` values in the dataframe.
     """
-    df = df[[target_col]].dropna().copy()
-    df['lag1'] = df[target_col].shift(1)
-    df['lag2'] = df[target_col].shift(2)
-    df['lag3'] = df[target_col].shift(3)
+    if "usage" not in df.columns:
+        raise ValueError("Input DataFrame must contain a 'usage' column.")
 
-    df.dropna(inplace=True)
+    usage_series = df["usage"].dropna().values[-input_window:]
 
-    X = df[['lag1', 'lag2', 'lag3']]
-    y = df[target_col]
+    model = XGBoostPredictor(input_window=input_window, forecast_horizon=forecast_horizon)
+    forecast = model.predict(usage_series)
 
-    model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100)
-    model.fit(X, y)
+    return forecast
 
-    # Generate forecasts iteratively
-    last_values = df[target_col].iloc[-3:].tolist()
-    preds = []
 
-    for _ in range(forecast_horizon):
-        input_vec = np.array(last_values[-3:]).reshape(1, -1)
-        pred = model.predict(input_vec)[0]
-        preds.append(pred)
-        last_values.append(pred)
+def plot_usage_forecast(df, forecast, forecast_horizon=5):
+    """
+    Plots the original usage data and appends the forecast to the end.
+    """
+    plt.figure(figsize=(10, 5))
+    past = df["usage"].dropna().values[-30:]  # Plot last 30 points
+    forecast_range = list(range(len(past), len(past) + forecast_horizon))
 
-    return preds
+    plt.plot(range(len(past)), past, label="Past Usage", marker='o')
+    plt.plot(forecast_range, forecast, label="Forecast", linestyle="--", marker='x')
+    plt.xlabel("Time")
+    plt.ylabel("Usage")
+    plt.title("Usage Forecast with XGBoost")
+    plt.legend()
+    plt.tight_layout()
+    plt.grid(True)
+    return plt

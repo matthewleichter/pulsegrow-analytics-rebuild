@@ -26,14 +26,15 @@ def preprocess_revenue_data(transactions_df, marketing_df):
 
 def forecast_revenue(df):
     """
-    Fits a Prophet model to the revenue time series and returns the forecast.
+    Fits a Prophet model to the revenue time series and returns the forecast DataFrame.
     """
-    prophet_df = df[['date', 'revenue']].rename(columns={"date": "ds", "revenue": "y"})
+    # Prophet expects 'ds' and 'y' column names
+    prophet_df = df[['date', 'revenue']].rename(columns={'date': 'ds', 'revenue': 'y'})
 
     model = Prophet()
     model.fit(prophet_df)
 
-    future = model.make_future_dataframe(periods=14)  # forecast 2 weeks ahead
+    future = model.make_future_dataframe(periods=14)  # Forecast 14 days ahead
     forecast = model.predict(future)
 
     return forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]

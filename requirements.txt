@@ -10,12 +10,10 @@ scipy==1.11.4
 
 # Deep Learning / Time Series
 xgboost==2.0.3
+lightgbm==4.3.0
 matplotlib==3.8.4
 seaborn==0.13.2
 shap==0.41.0
-
-# Causal Inference
-lightgbm==4.3.0
 
 # Survival Analysis
 lifelines==0.28.0
@@ -35,3 +33,6 @@ plotly==5.22.0
 joblib==1.4.2
 statsmodels==0.14.2
 pyyaml==6.0.1
+causalml==0.13.0
+
+

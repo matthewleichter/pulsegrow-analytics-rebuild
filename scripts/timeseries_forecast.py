@@ -14,7 +14,7 @@ OUTPUT_PREDICTIONS = "outputs/timesnet_forecast.csv"
 PLOT_PATH = "outputs/timesnet_forecast_plot.png"
 
 def forecast_timeseries():
-    print("🔮 Starting time series forecasting with TimesNet...")
+    print("🔮 Starting time series forecasting with XGBoost...")
 
     # Load and preprocess the time series data
     print("📥 Loading data...")

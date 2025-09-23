@@ -35,8 +35,3 @@ class XGBoostPredictor:
             last_values.append(next_val)
 
         return preds
-
-    # Predict the next 5 points
-    forecast = model.predict(ts_data)
-
-    return forecast

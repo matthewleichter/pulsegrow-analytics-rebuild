@@ -1,48 +1,55 @@
+# utils/revenue_utils.py
+
 import pandas as pd
 import matplotlib.pyplot as plt
-from prophet import Prophet
+from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-def load_revenue_data():
-    return pd.read_csv('data/marketing_spend.csv')
-
-def preprocess_revenue_data(transactions_df, marketing_df):
+def preprocess_revenue_data(transactions_df, marketing_df=None):
     """
-    Merges transaction and marketing spend data, aggregates daily revenue,
-    and returns a cleaned dataframe suitable for forecasting.
+    Prepares revenue data for forecasting.
+    Expects 'date' and 'revenue' columns in transactions_df.
     """
-    if 'date' not in transactions_df.columns or 'revenue' not in transactions_df.columns:
-        raise ValueError("transactions.csv must have 'date' and 'revenue' columns")
+    df = transactions_df.copy()
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.groupby('date').agg({'revenue': 'sum'}).reset_index()
+    df = df.sort_values('date')
+    df.set_index('date', inplace=True)
+    df = df.asfreq('D')  # daily frequency (adjust as needed)
+    df = df.fillna(method='ffill')
+    return df
 
-    transactions_df['date'] = pd.to_datetime(transactions_df['date'])
-    marketing_df['date'] = pd.to_datetime(marketing_df['date'])
-
-    # Aggregate transactions to daily revenue
-    daily_revenue = transactions_df.groupby('date')['revenue'].sum().reset_index()
-
-    # Optional: Merge with marketing data (e.g., to model effects later)
-    merged = pd.merge(daily_revenue, marketing_df, on='date', how='left')
-
-    return merged
-
-def forecast_revenue(df):
+def forecast_revenue(df, periods=30):
     """
-    Fits a Prophet model to the revenue time series and returns the forecast DataFrame.
+    Forecast future revenue using SARIMAX.
+    Returns a DataFrame with historical + forecasted values and confidence intervals.
     """
-    # Prophet expects 'ds' and 'y' column names
-    prophet_df = df[['date', 'revenue']].rename(columns={'date': 'ds', 'revenue': 'y'})
+    model = SARIMAX(df['revenue'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 7))
+    results = model.fit(disp=False)
 
-    model = Prophet()
-    model.fit(prophet_df)
+    forecast = results.get_forecast(steps=periods)
+    forecast_df = forecast.summary_frame(alpha=0.05)
 
-    future = model.make_future_dataframe(periods=14)  # Forecast 14 days ahead
-    forecast = model.predict(future)
+    forecast_df['date'] = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=periods, freq='D')
+    forecast_df.set_index('date', inplace=True)
 
-    return forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
+    combined = pd.concat([df[['revenue']], forecast_df[['mean', 'mean_ci_lower', 'mean_ci_upper']]], axis=0)
+    return combined
 
-def plot_revenue_forecast(df):
-    df['rolling'] = df['revenue'].rolling(3).mean()
-    plt.plot(df['revenue'], label='Revenue')
-    plt.plot(df['rolling'], label='Rolling Mean')
-    plt.legend()
-    plt.title("Revenue Forecast")
-    return plt.gcf()
+def plot_forecast_with_confidence(forecast_df):
+    """
+    Plots revenue forecast with 95% confidence intervals.
+    """
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    if 'revenue' in forecast_df.columns:
+        forecast_df['revenue'].plot(ax=ax, label='Actual', color='black')
+
+    forecast_df['mean'].plot(ax=ax, label='Forecast', color='blue')
+    ax.fill_between(forecast_df.index, 
+                    forecast_df['mean_ci_lower'], 
+                    forecast_df['mean_ci_upper'], 
+                    color='blue', alpha=0.2, label='95% CI')
+
+    ax.set_title("Revenue Forecast with Confidence Interval (ARIMA)")
+    ax.legend()
+    return fig

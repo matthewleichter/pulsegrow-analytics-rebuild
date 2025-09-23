@@ -4,7 +4,8 @@ import pandas as pd
 import numpy as np
 import os
 
-from utils.timesnet_utils import TimesNetPredictor
+from utils.timesnet_utils import forecast_usage_with_xgboost, plot_usage_forecast
+#from utils.timesnet_utils import TimesNetPredictor
 from utils.preprocessing import preprocess_timeseries
 from utils.visualization import plot_forecast
 
@@ -22,7 +23,7 @@ def forecast_timeseries():
 
     # Define the forecasting model
     print("🧠 Initializing TimesNet model...")
-    model = TimesNetPredictor(input_window=30, forecast_horizon=5)
+    model = forecast_usage_with_xgboost(df, input_window=30, forecast_horizon=5)
 
     # Fit the model
     print("🎯 Training model...")

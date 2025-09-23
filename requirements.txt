@@ -3,7 +3,7 @@ streamlit==1.31.1
 pandas==2.2.1
 numpy==1.26.4
 scikit-learn==1.3.2
-scipy==1.13.0
+scipy==1.12.0
 
 # Deep Learning / Time Series
 xgboost==2.0.3

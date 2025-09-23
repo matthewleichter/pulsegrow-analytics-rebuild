@@ -2,7 +2,7 @@ import streamlit as st
 from scripts import (
     ab_test_analysis, anomaly_detection, causal_inference, churn_analysis,
     funnel_analysis, llm_interpreter, marketing_mix_model, revenue_forecast,
-    segmentation_model, survival_analysis, timeseries_forecast, usage_forecasting
+    segmentation_model, kaplan_meier_model, timeseries_forecast, usage_forecasting
 )
 
 st.set_page_config(page_title="PulseGrow Analytics", layout="wide")
@@ -40,7 +40,7 @@ elif tab == "Timeseries Forecast":
     timeseries_forecast.run_timeseries_forecast()
 
 elif tab == "Survival Analysis":
-    survival_analysis.run_survival_analysis()
+    kaplan_meier_model.run_kaplan_meier()
 
 elif tab == "Segmentation Model":
     segmentation_model.run_segmentation_model()

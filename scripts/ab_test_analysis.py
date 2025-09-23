@@ -3,7 +3,7 @@ import pandas as pd
 from utils.ab_test_utils import perform_ab_test
 import matplotlib.pyplot as plt
 import seaborn as sns
-from models.ab_test import ABTestModel 
+from models.ab_testing import ABTestModel 
 
 # Visualization Function
 def show_ab_test_visualizations(data):

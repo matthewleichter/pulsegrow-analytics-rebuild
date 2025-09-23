@@ -1,13 +1,13 @@
-# timeseries_forecast.py
+#dependencies are preprocessing and timesnet_utils in the utils folder and timesnet in the models folder
+
+# scripts/timeseries_forecasting.py
 
 import pandas as pd
 import numpy as np
 import os
 
-from utils.timesnet_utils import forecast_usage_with_xgboost
-#from utils.timesnet_utils import TimesNetPredictor
+from utils.timesnet_utils import forecast_usage_with_xgboost, plot_usage_forecast
 from utils.preprocessing import preprocess_timeseries
-from utils.visualization import plot_forecast
 
 DATA_PATH = "data/usage_logs.csv"
 OUTPUT_PREDICTIONS = "outputs/timesnet_forecast.csv"
@@ -21,17 +21,12 @@ def forecast_timeseries():
     df = pd.read_csv(DATA_PATH)
     ts_data = preprocess_timeseries(df)
 
-    # Define the forecasting model
-    print("🧠 Initializing TimesNet model...")
-    model = forecast_usage_with_xgboost(df, input_window=30, forecast_horizon=5)
+    # Extract just the numeric usage array from preprocessed data
+    usage_array = ts_data["usage_normalized"].values
 
-    # Fit the model
-    print("🎯 Training model...")
-    model.fit(ts_data)
-
-    # Forecast the next steps
+    # Forecast using utility function
     print("📈 Forecasting future values...")
-    forecast = model.predict(ts_data)
+    forecast = forecast_usage_with_xgboost(ts_data, input_window=30, forecast_horizon=5)
 
     # Save forecast
     if not os.path.exists("outputs"):
@@ -46,7 +41,8 @@ def forecast_timeseries():
 
     # Plot the forecast
     print("📊 Plotting forecast...")
-    plot_forecast(ts_data, forecast, save_path=PLOT_PATH)
+    plot = plot_usage_forecast(ts_data, forecast)
+    plot.savefig(PLOT_PATH)
     print(f"📷 Plot saved to {PLOT_PATH}")
 
     print("✅ Time series forecast completed.")

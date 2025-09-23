@@ -1,7 +1,7 @@
 import streamlit as st
 from scripts import (
     ab_test_analysis, anomaly_detection, causal_inference, churn_analysis,
-    funnel_analysis, llm_interpreter, marketing_mix_model, revenue_forecasting,
+    funnel_analysis, llm_interpreter, marketing_mix_model, revenue_forecast,
     segmentation_model, survival_analysis, timeseries_forecast, usage_forecasting
 )
 
@@ -21,7 +21,7 @@ with st.sidebar:
         options=[
             "Churn Analysis", "Usage Forecasting", "Timeseries Forecast",
             "Survival Analysis", "Segmentation Model", "Causal Inference",
-            "A/B Test Analysis", "Anomaly Detection", "Revenue Forecasting",
+            "A/B Test Analysis", "Anomaly Detection", "Revenue Forecast",
             "Marketing Mix Modeling", "LLM Interpreter", "Funnel Analysis"
         ]
     )
@@ -54,8 +54,8 @@ elif tab == "A/B Test Analysis":
 elif tab == "Anomaly Detection":
     anomaly_detection.run_anomaly_detection()
 
-elif tab == "Revenue Forecasting":
-    revenue_forecasting.run_revenue_forecasting()
+elif tab == "Revenue Forecast":
+    revenue_forecast.run_revenue_forecasting()
 
 elif tab == "Marketing Mix Modeling":
     marketing_mix_model.run_marketing_mix_model()

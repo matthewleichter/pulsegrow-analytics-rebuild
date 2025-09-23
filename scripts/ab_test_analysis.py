@@ -3,6 +3,7 @@ import pandas as pd
 from utils.ab_test_utils import perform_ab_test
 import matplotlib.pyplot as plt
 import seaborn as sns
+from models.ab_test import ABTestModel 
 
 # Visualization Function
 def show_ab_test_visualizations(data):
@@ -15,6 +16,7 @@ def show_ab_test_visualizations(data):
     sns.histplot(data=data, x='metric', hue='group', kde=True, element='step', stat='density')
     ax2.set_title('Distribution of Metric by Group')
     st.pyplot(fig2)
+
 
 # Main Streamlit UI
 def run_ab_test_analysis():
@@ -32,6 +34,10 @@ def run_ab_test_analysis():
 
             st.subheader("Visualizations")
             show_ab_test_visualizations(data)
+
+            st.subheader("KL Divergence")
+            kl_div = ABTestModel.run_kl_divergence(data)
+            st.write(f"KL Divergence (Treatment || Control): {round(kl_div, 4)}")
 
         except Exception as e:
             st.error(f"Error: {e}")

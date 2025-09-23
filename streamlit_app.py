@@ -55,7 +55,7 @@ elif tab == "Anomaly Detection":
     anomaly_detection.run_anomaly_detection()
 
 elif tab == "Revenue Forecast":
-    revenue_forecast.run_revenue_forecasting()
+    revenue_forecast.run_revenue_forecast()
 
 elif tab == "Marketing Mix Modeling":
     marketing_mix_model.run_marketing_mix_model()

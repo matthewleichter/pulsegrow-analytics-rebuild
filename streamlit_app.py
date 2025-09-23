@@ -1,6 +1,6 @@
 import streamlit as st
 from scripts import (
-    ab_test_analysis, anomaly_detection, causal_inference, churn_prediction,
+    ab_test_analysis, anomaly_detection, causal_inference, churn_analysis,
     funnel_analysis, llm_interpreter, marketing_mix_model, revenue_forecasting,
     segmentation_model, survival_analysis, timeseries_forecast, usage_forecasting
 )
@@ -19,7 +19,7 @@ with st.sidebar:
     tab = st.radio(
         label="Choose a model",
         options=[
-            "Churn Prediction", "Usage Forecasting", "Timeseries Forecast",
+            "Churn Analysis", "Usage Forecasting", "Timeseries Forecast",
             "Survival Analysis", "Segmentation Model", "Causal Inference",
             "A/B Test Analysis", "Anomaly Detection", "Revenue Forecasting",
             "Marketing Mix Modeling", "LLM Interpreter", "Funnel Analysis"
@@ -30,8 +30,8 @@ with st.sidebar:
     st.caption("Matthew Leichter | matthew.leichter@gmail.com | (323) 303-8062 | https://matthewleichter.github.io")
 
 # Tab Logic
-if tab == "Churn Prediction":
-    churn_prediction.run_churn_prediction()
+if selected == "Churn Analysis":
+    churn_analysis.run_churn_analysis()
 
 elif tab == "Usage Forecasting":
     usage_forecasting.run_usage_forecasting()

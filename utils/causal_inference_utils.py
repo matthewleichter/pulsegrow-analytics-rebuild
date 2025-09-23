@@ -1,4 +1,4 @@
-# scripts/causal_inference.py
+#dependence is scripts/causal_inference.py
 
 import pandas as pd
 import numpy as np

@@ -2,7 +2,7 @@ import xgboost as xgb
 import pandas as pd
 import numpy as np
 
-def forecast_next_5_point(df, target_col='usage', forecast_horizon=5):
+def TimesNetPredictor(df, target_col='usage', forecast_horizon=5):
     """
     Train an XGBoost regressor on past usage and predict the next `forecast_horizon` values.
     Assumes the input df has a time-series index and a column named 'usage'.

@@ -29,5 +29,5 @@ langchain-openai==0.1.6
 # Other Useful Packages
 plotly==5.22.0
 joblib==1.4.2
-statsmodels==0.14.2
+statsmodels==0.13.5
 pyyaml==6.0.1

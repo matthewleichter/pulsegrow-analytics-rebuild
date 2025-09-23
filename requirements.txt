@@ -3,12 +3,8 @@ streamlit==1.31.1
 pandas==2.2.1
 numpy==1.26.4
 scikit-learn==1.3.2
-protobuf==4.25.3
-watchdog==3.0.0
 
-scipy==1.11.4
-
-# Deep Learning / Time Series
+# Modeling
 xgboost==2.0.3
 lightgbm==4.3.0
 matplotlib==3.8.4
@@ -27,12 +23,8 @@ langchain==0.1.16
 langchain-core==0.1.44
 langchain-openai==0.0.8
 
-
-# Other Useful Packages
+# Other Utilities
 plotly==5.22.0
 joblib==1.4.2
 statsmodels==0.14.2
 pyyaml==6.0.1
-causalml==0.13.0
-
-

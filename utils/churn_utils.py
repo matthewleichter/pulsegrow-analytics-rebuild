@@ -36,3 +36,9 @@ def analyze_churn(df):
     }
 
     return summary
+
+def load_churn_predictions(path="data/churn_predictions.csv"):
+    """
+    Loads predicted churn probabilities from CSV.
+    """
+    return pd.read_csv(path)

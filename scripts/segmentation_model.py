@@ -17,7 +17,7 @@ def run_segmentation_model():
             clustered_df, labels = perform_segmentation(df, num_clusters=num_clusters)
             st.write("Clustered Data Preview:", clustered_df.head())
 
-            fig = plot_segmentation(clustered_df, labels)
+            fig = plot_segment_clusters(clustered_df, labels)
             st.pyplot(fig)
         except Exception as e:
             st.error(f"Segmentation failed: {e}")

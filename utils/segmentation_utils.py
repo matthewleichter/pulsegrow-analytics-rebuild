@@ -44,3 +44,41 @@ def plot_segments(df):
     plt.scatter(df['feature1'], df['feature2'], c=clusters)
     plt.title("User Segments")
     return plt.gcf()
+
+def plot_segmentation(clustered_df, labels):
+    """
+    Plots customer clusters in 2D using first two numeric features.
+
+    Parameters:
+        clustered_df (DataFrame): The clustered customer data.
+        labels (array-like): Cluster labels for each point.
+
+    Returns:
+        matplotlib.figure.Figure: The segmentation plot.
+    """
+    # Select the first two numeric columns for plotting
+    numeric_cols = clustered_df.select_dtypes(include=np.number).columns
+    if len(numeric_cols) < 2:
+        raise ValueError("Need at least two numeric columns to plot segmentation.")
+
+    x_col, y_col = numeric_cols[:2]
+    clustered_df["Cluster"] = labels
+
+    # Plot
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(
+        data=clustered_df,
+        x=x_col,
+        y=y_col,
+        hue="Cluster",
+        palette="tab10",
+        s=60,
+        edgecolor="black"
+    )
+    plt.title("Customer Segmentation Clusters")
+    plt.xlabel(x_col)
+    plt.ylabel(y_col)
+    plt.legend(title="Cluster")
+    plt.tight_layout()
+
+    return plt.gcf()

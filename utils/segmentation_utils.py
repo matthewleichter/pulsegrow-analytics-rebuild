@@ -4,15 +4,25 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 
 
-def perform_segmentation(data, n_clusters=3):
-    features = data.select_dtypes(include=['float64', 'int64']).copy()
-    scaler = StandardScaler()
-    scaled_features = scaler.fit_transform(features)
+def perform_segmentation(df, num_clusters=4):
+    """
+    Segments the dataframe using KMeans clustering.
+    """
+    # Drop non-numeric columns for clustering
+    numeric_df = df.select_dtypes(include=["number"])
 
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-    data['segment'] = kmeans.fit_predict(scaled_features)
+    if numeric_df.empty:
+        raise ValueError("No numeric columns found for clustering.")
 
-    return data, kmeans
+    # Fit KMeans
+    kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+    labels = kmeans.fit_predict(numeric_df)
+
+    # Add labels to original dataframe
+    df_clustered = df.copy()
+    df_clustered["cluster"] = labels
+
+    return df_clustered, labels
 
 def plot_segment_clusters(data):
     if 'segment' not in data.columns:

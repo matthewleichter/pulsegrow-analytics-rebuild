@@ -8,7 +8,6 @@ from scripts import prepare_visuals
 import os
 
 st.set_page_config(page_title="PulseGrow Analytics", layout="wide")
-
 st.title("📊 PulseGrow Analytics Dashboard")
 st.markdown("""
 Welcome to **PulseGrow**, your unified analytics hub for behavioral forecasting, segmentation, causal inference, A/B testing, and more. 
@@ -17,6 +16,23 @@ Select a model tab below to begin your analysis.
 # ✅ Sidebar control to optionally refresh visualizations
 st.sidebar.title("🔄 Data Preprocessing")
 refresh_charts = st.sidebar.checkbox("Regenerate all charts", value=False)
+
+selected = st.sidebar.selectbox(
+    "Choose a section",
+    (
+        "📍 Introduction",
+        "Churn Analysis",
+        "Usage Forecasting",
+        "Segmentation",
+        "Marketing Mix",
+        "Revenue Forecast",
+        "Survival Analysis",
+        "Causal Inference",
+        "Anomaly Detection",
+        "A/B Testing",
+        "LLM Interpreter",
+    )
+)
 
 # ✅ Run prepare_charts() on first launch or if user asks
 CHART_FLAG_FILE = "assets/visuals/.charts_ready"
@@ -33,9 +49,10 @@ else:
 # Sidebar Styling and Info
 # 🔧 Sidebar Navigation
 st.sidebar.title("🔧 Select Analysis Module")
-tab = st.sidebar.radio(
+tab = st.radio(
     label="Choose a model",
     options=[
+        "📍 Introduction",
         "Churn Analysis", "Usage Forecasting", "Timeseries Forecast",
         "Survival Analysis", "Segmentation Model", "Causal Inference",
         "A/B Test Analysis", "Anomaly Detection", "Revenue Forecast",
@@ -48,7 +65,28 @@ st.sidebar.caption("ℹ️ Built with ❤️ by Matthew Leichter on Leprechaun O
 st.sidebar.caption("Matthew Leichter | matthew.leichter@gmail.com | (323) 303-8062 | https://matthewleichter.github.io")
 
 # Tab Logic
-if tab == "Churn Analysis":
+if tab == "📍 Introduction":
+    st.header("📍 Welcome to PulseGrow Analytics")
+    st.markdown("""
+    PulseGrow empowers you with actionable insights across user retention, revenue forecasting, segmentation, causal inference, and more — all in one interactive dashboard.
+
+    ---
+    
+    🔍 **Explore Modules:**
+    - 📈 Churn Prediction
+    - 📊 Usage & Revenue Forecasting
+    - 🎯 A/B Test Analysis
+    - 🧠 LLM Model Insights
+    - 🔬 Behavioral Segmentation
+    - ⏳ Survival Analysis
+    - 🧮 Causal Inference
+
+    🧰 Built on **Leprechaun OS**, by **Matthew Leichter**
+
+    📫 Contact: matthew.leichter@gmail.com  
+    🌐 [Portfolio](https://matthewleichter.github.io) | ☎ (323) 303-8062
+    """)
+elif tab == "Churn Analysis":
     churn_analysis.run_churn_analysis()
 
 elif tab == "Usage Forecasting":

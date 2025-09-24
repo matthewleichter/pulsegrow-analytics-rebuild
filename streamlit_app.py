@@ -30,41 +30,25 @@ if refresh_charts or not os.path.exists(CHART_FLAG_FILE):
 else:
     st.sidebar.info("✅ Cached charts ready.")
 
-selected = st.sidebar.selectbox(
-    "Choose a section",
-    (
-        "Churn Analysis",
-        "Usage Forecasting",
-        "Segmentation",
-        "Marketing Mix",
-        "Revenue Forecast",
-        "Survival Analysis",
-        "Causal Inference",
-        "Anomaly Detection",
-        "A/B Testing",
-        "LLM Interpreter",
-    )
+# Sidebar Styling and Info
+# 🔧 Sidebar Navigation
+st.sidebar.title("🔧 Select Analysis Module")
+tab = st.sidebar.radio(
+    label="Choose a model",
+    options=[
+        "Churn Analysis", "Usage Forecasting", "Timeseries Forecast",
+        "Survival Analysis", "Segmentation Model", "Causal Inference",
+        "A/B Test Analysis", "Anomaly Detection", "Revenue Forecast",
+        "Marketing Mix Modeling", "LLM Interpreter", "Funnel Analysis"
+    ]
 )
 
-# Sidebar Styling and Info
-with st.sidebar:
-    st.header("🔧 Select Analysis Module")
-    st.markdown("---")
-    tab = st.radio(
-        label="Choose a model",
-        options=[
-            "Churn Analysis", "Usage Forecasting", "Timeseries Forecast",
-            "Survival Analysis", "Segmentation Model", "Causal Inference",
-            "A/B Test Analysis", "Anomaly Detection", "Revenue Forecast",
-            "Marketing Mix Modeling", "LLM Interpreter", "Funnel Analysis"
-        ]
-    )
-    st.markdown("---")
-    st.caption("ℹ️ Built with ❤️ by Matthew Leichter on Leprechaun OS, the only existing LLM Based Operating System")
-    st.caption("Matthew Leichter | matthew.leichter@gmail.com | (323) 303-8062 | https://matthewleichter.github.io")
+st.sidebar.markdown("---")
+st.sidebar.caption("ℹ️ Built with ❤️ by Matthew Leichter on Leprechaun OS")
+st.sidebar.caption("Matthew Leichter | matthew.leichter@gmail.com | (323) 303-8062 | https://matthewleichter.github.io")
 
 # Tab Logic
-if selected == "Churn Analysis":
+if tab == "Churn Analysis":
     churn_analysis.run_churn_analysis()
 
 elif tab == "Usage Forecasting":

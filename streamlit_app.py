@@ -4,7 +4,24 @@ from scripts import (
     funnel_analysis, llm_interpreter, marketing_mix_model, revenue_forecast,
     segmentation_model, kaplan_meier_model, timeseries_forecast, usage_forecasting
 )
+from scripts import prepare_visuals 
+import os
 
+# ✅ Sidebar control to optionally refresh visualizations
+st.sidebar.title("🔄 Data Preprocessing")
+refresh_charts = st.sidebar.checkbox("Regenerate all charts", value=False)
+
+# ✅ Run prepare_charts() on first launch or if user asks
+CHART_FLAG_FILE = "assets/visuals/.charts_ready"
+
+if refresh_charts or not os.path.exists(CHART_FLAG_FILE):
+    with st.spinner("Generating visualizations..."):
+        prepare_visuals.prepare_charts()
+        with open(CHART_FLAG_FILE, "w") as f:
+            f.write("ready")
+        st.sidebar.success("✅ Charts generated.")
+else:
+    st.sidebar.info("✅ Cached charts ready.")
 st.set_page_config(page_title="PulseGrow Analytics", layout="wide")
 st.title("📊 PulseGrow Analytics Dashboard")
 st.markdown("""

@@ -6,66 +6,46 @@ from sklearn.preprocessing import StandardScaler
 
 def perform_segmentation(df, num_clusters=4):
     """
-    Segments the dataframe using KMeans clustering.
-    Automatically one-hot encodes non-numeric columns.
+    Perform KMeans clustering on the numeric columns of the dataframe.
+
+    Parameters:
+        df (pd.DataFrame): The input data.
+        num_clusters (int): The number of clusters to use.
+
+    Returns:
+        clustered_df (pd.DataFrame): The original DataFrame with an added 'cluster' column.
+        labels (np.ndarray): The array of cluster labels.
     """
-    # One-hot encode all categorical columns
-    processed_df = pd.get_dummies(df)
+    numeric_df = df.select_dtypes(include=["number"]).copy()
+    if numeric_df.shape[1] < 1:
+        raise ValueError("No numeric columns found for clustering.")
 
-    if processed_df.empty:
-        raise ValueError("No usable data found for clustering after encoding.")
+    scaler = StandardScaler()
+    scaled_data = scaler.fit_transform(numeric_df)
 
-    # Fit KMeans
     kmeans = KMeans(n_clusters=num_clusters, random_state=42)
-    labels = kmeans.fit_predict(processed_df)
+    labels = kmeans.fit_predict(scaled_data)
 
-    # Add cluster labels back to original dataframe
     clustered_df = df.copy()
     clustered_df["cluster"] = labels
 
     return clustered_df, labels
 
-def plot_segment_clusters(data):
-    if 'segment' not in data.columns:
-        raise ValueError("Data must have a 'segment' column")
-
-    plt.figure(figsize=(8, 6))
-    for segment in data['segment'].unique():
-        segment_data = data[data['segment'] == segment]
-        plt.scatter(segment_data.iloc[:, 0], segment_data.iloc[:, 1], label=f"Segment {segment}")
-
-    plt.title("Customer Segmentation Clusters")
-    plt.xlabel("Feature 1")
-    plt.ylabel("Feature 2")
-    plt.legend()
-    return plt.gcf()
-
-def load_segmentation_results(path="data/segmentation_results.csv"):
-    """
-    Loads precomputed segmentation results (e.g., from KMeans or GMM).
-    """
-    return pd.read_csv(path)
-
-def load_segmentation_data():
-    return pd.read_csv('data/segmentation_labels.csv')
-
-def plot_segments(df):
-    kmeans = KMeans(n_clusters=3)
-    clusters = kmeans.fit_predict(df[['feature1', 'feature2']])
-    plt.scatter(df['feature1'], df['feature2'], c=clusters)
-    plt.title("User Segments")
-    return plt.gcf()
-
 def plot_segmentation(df, labels):
     """
-    Plots the clustered data using the first two numeric dimensions.
+    Plot the clusters using the first two numeric columns.
+
+    Parameters:
+        df (pd.DataFrame): The clustered data.
+        labels (np.ndarray): The cluster labels.
+
+    Returns:
+        matplotlib.figure.Figure: The figure to render with Streamlit.
     """
-    # Use first two numeric columns for plotting
     numeric_df = df.select_dtypes(include=["number"]).copy()
     if numeric_df.shape[1] < 2:
         raise ValueError("Need at least two numeric columns to plot clusters.")
 
-    # Add cluster labels
     numeric_df["cluster"] = labels
 
     plt.figure(figsize=(8, 6))
@@ -73,12 +53,15 @@ def plot_segmentation(df, labels):
         x=numeric_df.columns[0],
         y=numeric_df.columns[1],
         hue="cluster",
-        palette="viridis",
+        palette="tab10",
         data=numeric_df,
-        legend="full"
+        s=80,
+        alpha=0.8
     )
     plt.title("Customer Segmentation Clusters")
     plt.xlabel(numeric_df.columns[0])
     plt.ylabel(numeric_df.columns[1])
+    plt.legend(title="Cluster")
     plt.tight_layout()
+
     return plt.gcf()

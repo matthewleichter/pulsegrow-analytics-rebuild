@@ -17,23 +17,6 @@ Select a model tab below to begin your analysis.
 st.sidebar.title("🔄 Data Preprocessing")
 refresh_charts = st.sidebar.checkbox("Regenerate all charts", value=False)
 
-selected = st.sidebar.selectbox(
-    "Choose a section",
-    (
-        "📍 Introduction",
-        "Churn Analysis",
-        "Usage Forecasting",
-        "Segmentation",
-        "Marketing Mix",
-        "Revenue Forecast",
-        "Survival Analysis",
-        "Causal Inference",
-        "Anomaly Detection",
-        "A/B Testing",
-        "LLM Interpreter",
-    )
-)
-
 # ✅ Run prepare_charts() on first launch or if user asks
 CHART_FLAG_FILE = "assets/visuals/.charts_ready"
 

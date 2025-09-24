@@ -1,17 +1,20 @@
+
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.ndimage import gaussian_filter1d
 
-def load_usage_data():
-    return pd.read_csv('data/usage_logs.csv')
+def smooth_usage(df, window=3):
+    df = df.copy()
+    df['smoothed_usage'] = df['usage'].rolling(window=window, min_periods=1).mean()
+    return df
 
-def plot_smoothed_usage(df):
-    df = df.sort_values('timestamp')
-    usage = df['usage_count'].values
-    smoothed = gaussian_filter1d(usage, sigma=2)
-    ci = 1.96 * np.std(usage)/np.sqrt(len(usage))
-    plt.plot(smoothed, label='Smoothed')
-    plt.fill_between(range(len(smoothed)), smoothed - ci, smoothed + ci, alpha=0.3)
-    plt.title("Smoothed Usage with Confidence Interval")
-    return plt.gcf()
+def compute_confidence_interval(df, ci=0.95):
+    usage = df['usage']
+    mean = usage.mean()
+    std = usage.std()
+    n = len(usage)
+    margin = 1.96 * (std / np.sqrt(n))  # 95% CI with z-score
+    return mean - margin, mean + margin
+
+def forecast_basic(df, steps=7):
+    last_value = df['usage'].iloc[-1]
+    return pd.DataFrame({'day': range(len(df), len(df)+steps), 'forecast': [last_value]*steps})

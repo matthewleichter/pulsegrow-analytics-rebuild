@@ -13,6 +13,24 @@ def plot_usage_forecast(df):
     ax.legend()
     return fig
 
+def plot_churn_results(df):
+    fig, ax = plt.subplots()
+    sns.barplot(data=df, x='user_segment', y='churn_probability', ax=ax)
+    ax.set_title("Churn Prediction by Segment")
+    ax.set_xlabel("User Segment")
+    ax.set_ylabel("Churn Probability")
+    return fig
+
+def plot_segmentation_clusters(df):
+    fig, ax = plt.subplots()
+    scatter = ax.scatter(df['x'], df['y'], c=df['cluster'], cmap='tab10', alpha=0.6)
+    ax.set_title("User Segmentation Clusters")
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    legend = ax.legend(*scatter.legend_elements(), title="Cluster")
+    ax.add_artist(legend)
+    return fig
+
 def plot_distribution(df, column, title='Distribution'):
     plt.figure(figsize=(10, 5))
     sns.histplot(df[column], kde=True)

@@ -7,6 +7,8 @@ from scripts import (
 from scripts import prepare_visuals 
 import os
 
+st.set_page_config(page_title="PulseGrow Analytics", layout="wide")
+
 # ✅ Sidebar control to optionally refresh visualizations
 st.sidebar.title("🔄 Data Preprocessing")
 refresh_charts = st.sidebar.checkbox("Regenerate all charts", value=False)
@@ -22,7 +24,6 @@ if refresh_charts or not os.path.exists(CHART_FLAG_FILE):
         st.sidebar.success("✅ Charts generated.")
 else:
     st.sidebar.info("✅ Cached charts ready.")
-st.set_page_config(page_title="PulseGrow Analytics", layout="wide")
 st.title("📊 PulseGrow Analytics Dashboard")
 st.markdown("""
 Welcome to **PulseGrow**, your unified analytics hub for behavioral forecasting, segmentation, causal inference, A/B testing, and more. 

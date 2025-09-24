@@ -7,22 +7,23 @@ from sklearn.preprocessing import StandardScaler
 def perform_segmentation(df, num_clusters=4):
     """
     Segments the dataframe using KMeans clustering.
+    Automatically one-hot encodes non-numeric columns.
     """
-    # Drop non-numeric columns for clustering
-    numeric_df = df.select_dtypes(include=["number"])
+    # One-hot encode all categorical columns
+    processed_df = pd.get_dummies(df)
 
-    if numeric_df.empty:
-        raise ValueError("No numeric columns found for clustering.")
+    if processed_df.empty:
+        raise ValueError("No usable data found for clustering after encoding.")
 
     # Fit KMeans
     kmeans = KMeans(n_clusters=num_clusters, random_state=42)
-    labels = kmeans.fit_predict(numeric_df)
+    labels = kmeans.fit_predict(processed_df)
 
-    # Add labels to original dataframe
-    df_clustered = df.copy()
-    df_clustered["cluster"] = labels
+    # Add cluster labels back to original dataframe
+    clustered_df = df.copy()
+    clustered_df["cluster"] = labels
 
-    return df_clustered, labels
+    return clustered_df, labels
 
 def plot_segment_clusters(data):
     if 'segment' not in data.columns:

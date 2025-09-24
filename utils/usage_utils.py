@@ -2,6 +2,12 @@
 import pandas as pd
 import numpy as np
 
+def load_usage_forecast_data(path="data/usage_forecast.csv"):
+    """
+    Load usage forecast data for visualization.
+    """
+    return pd.read_csv(path, parse_dates=["date"])
+
 def compute_confidence_interval(df, ci=0.95):
     usage = df['usage']
     mean = usage.mean()

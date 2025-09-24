@@ -19,3 +19,9 @@ def compute_confidence_interval(df, ci=0.95):
 def forecast_basic(df, steps=7):
     last_value = df['usage'].iloc[-1]
     return pd.DataFrame({'day': range(len(df), len(df)+steps), 'forecast': [last_value]*steps})
+
+def load_usage_forecast_data(path="data/usage_forecast.csv"):
+    """
+    Load usage forecast data for visualization.
+    """
+    return pd.read_csv(path, parse_dates=["date"])

@@ -31,6 +31,22 @@ Welcome to **PulseGrow**, your unified analytics hub for behavioral forecasting,
 Select a model tab below to begin your analysis.
 """)
 
+selected = st.sidebar.selectbox(
+    "Choose a section",
+    (
+        "Churn Analysis",
+        "Usage Forecasting",
+        "Segmentation",
+        "Marketing Mix",
+        "Revenue Forecast",
+        "Survival Analysis",
+        "Causal Inference",
+        "Anomaly Detection",
+        "A/B Testing",
+        "LLM Interpreter",
+    )
+)
+
 # Sidebar Styling and Info
 with st.sidebar:
     st.header("🔧 Select Analysis Module")

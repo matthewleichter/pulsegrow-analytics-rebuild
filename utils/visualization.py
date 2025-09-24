@@ -2,6 +2,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
+def plot_usage_forecast(df):
+    fig, ax = plt.subplots()
+    df.plot(x='date', y='usage', ax=ax, label='Raw Usage')
+    if 'smoothed' in df.columns:
+        df.plot(x='date', y='smoothed', ax=ax, label='Smoothed', linestyle='--')
+    ax.set_title("Usage Forecast")
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Usage")
+    ax.legend()
+    return fig
+
 def plot_distribution(df, column, title='Distribution'):
     plt.figure(figsize=(10, 5))
     sns.histplot(df[column], kde=True)

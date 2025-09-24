@@ -2,6 +2,12 @@ import pandas as pd
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
+def load_segmentation_results(path="data/segmentation_results.csv"):
+    """
+    Loads precomputed segmentation results (e.g., from KMeans or GMM).
+    """
+    return pd.read_csv(path)
+
 def load_segmentation_data():
     return pd.read_csv('data/segmentation_labels.csv')
 

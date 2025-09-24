@@ -2,11 +2,6 @@
 import pandas as pd
 import numpy as np
 
-def smooth_usage(df, window=3):
-    df = df.copy()
-    df['smoothed_usage'] = df['usage'].rolling(window=window, min_periods=1).mean()
-    return df
-
 def compute_confidence_interval(df, ci=0.95):
     usage = df['usage']
     mean = usage.mean()

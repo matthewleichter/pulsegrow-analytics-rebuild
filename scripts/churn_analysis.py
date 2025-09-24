@@ -31,7 +31,8 @@ def run_churn_analysis():
     st.pyplot(fig)
 
     st.subheader("📈 Training Churn Prediction Model")
-    model, accuracy = train_churn_model(df)
+    model, report = train_churn_model(df)
+    accuracy = report["accuracy"]
     st.success(f"✅ Model trained. Accuracy: {accuracy:.2%}")
 
     st.subheader("📉 Example Predictions")

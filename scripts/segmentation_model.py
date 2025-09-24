@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from utils.segmentation_utils import perform_segmentation, plot_segment_clusters
+from utils.segmentation_utils import perform_segmentation, plot_segmentation
 
 def run_segmentation_model():
     st.title("Customer Segmentation")

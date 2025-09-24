@@ -2,7 +2,8 @@
 import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
-from utils.usage_utils import smooth_usage, compute_confidence_interval, forecast_basic
+from utils.usage_utils import compute_confidence_interval, forecast_basic
+from utils.usage_forecast_utils import smooth_usage
 
 def run_usage_forecasting():
     st.title("Usage Forecasting")

@@ -1,4 +1,7 @@
 import streamlit as st
+
+st.set_page_config(page_title="PulseGrow Analytics", layout="wide")
+
 from scripts import (
     ab_test_analysis, anomaly_detection, causal_inference, churn_analysis,
     funnel_analysis, llm_interpreter, marketing_mix_model, revenue_forecast,
@@ -6,8 +9,6 @@ from scripts import (
 )
 from scripts import prepare_visuals 
 import os
-
-st.set_page_config(page_title="PulseGrow Analytics", layout="wide")
 
 # ✅ Sidebar control to optionally refresh visualizations
 st.sidebar.title("🔄 Data Preprocessing")

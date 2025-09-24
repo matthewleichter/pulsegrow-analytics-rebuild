@@ -1,4 +1,6 @@
 [server]
+runOnSave = false
+fileWatcherType = "none"
 pythonPath = "python3.10"
 headless = true
 enableCORS = false
